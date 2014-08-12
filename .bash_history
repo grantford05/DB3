@@ -427,3 +427,79 @@ ls
 cd models/
 ls
 cd ..
+cd splatter/
+rails server
+exit
+ls
+cd splatter/
+ls
+cd app
+ls
+cd models/
+ls
+nano user.rb 
+ls
+cd ..
+ls
+cd models/
+nano user.rb 
+curl -i -H "Content-type: application/json" -X POST http://ford.sqrawler.com:3000/users -d '{"user": {"email":"test@foo.com", "name":"Test User", "password":"fart"}}'
+curl -i -H "Content-type: application/json" -X POST http://ford.sqrawler.com:3000/users -d '{"user": {"email":"test4@foo.com", "name":"Test User", "password":"fart"}}'
+curl -i -H "Content-type: application/json" -X POST http://ford.sqrawler.com:3000/users -d '{"user": {"email":"test4@foo.com", "name":"Test User", "password":"fartfart1"}}'
+curl -i -H "Content-type: application/json" -X POST http://ford.sqrawler.com:3000/users -d '{"user": {"email":"test5@foo.com", "name":"Test User", "password":"fartfart1"}}'
+rake db:migrate
+curl -i -H "Content-type: application/json" -X POST http://ford.sqrawler.com:3000/users -d '{"user": {"email":"test5@foo.com", "name":"Test User", "password":"fart"}}'
+curl -i -H "Content-type: application/json" -X POST http://ford.sqrawler.com:3000/users -d '{"user": {"email":"test6@foo.com", "name":"Test User", "password":"fart"}}'
+nano user.rb 
+cd ../../
+git add .
+ls
+cd ..
+ls
+cd ..
+ls
+cd ford/
+ls
+cd ..
+ls
+cd ford/
+cd ..
+ls
+mkdir db3
+cd ford/
+ls
+mkdir db3
+mv splatter db3
+cd db3/
+ls
+cd ..
+ls
+mv work db3
+git init
+git add .
+git commit -m "initial commit"
+git remote add origin git@github.com:grantford05/db3.git
+git push -u origin master
+git remote add origin git@github.com:grantford05/db3
+git remote add origin git@github.com:grantford05/db3.git
+git push
+ls
+cd bd
+cd db3/
+ls
+cd splatter/
+ls
+cd ../..
+ls
+cd db3/
+git init
+git add .
+git commit -m "first commit"
+git remote add origin git@github.com:grantford05/db3.git
+
+git remote add origin git@github.com:grantford05/db3.git
+git push -u origin master
+git pull
+git pull origin master
+git psh -u origin master
+git push -u origin master

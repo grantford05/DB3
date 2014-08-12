@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   
   validates :name, presence: true
   validates :email, uniqueness: {case_sensitive: false}
-  validates :password, length: {minimum: 8}, if: :strong?
+  validates :password, presence: true,  length: {minimum: 8}
 
   def strong?
     password =~ /.*\d+.*/ && \
