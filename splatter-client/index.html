@@ -1,36 +1,183 @@
 <!DOCTYPE html>
 <html ng-app="splatter-web">
+
 	<head>
-		<title>Basic Splatter Client</title>
+
+		<title>Splatter :: Home</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="angular.min.js"></script>
 		<script src="angular-resource.js"></script>
 		<script src="app.js"></script>
+
 	</head>
+
 	<body>
-		<div ng-controller="UserController as user">
-		<!-- Add your HTML and Angular code below -->
 
-			<p>{{user.u.name}}</p>
-			<p>{{user.u.email}}</p>
-			<p>{{user.u.blurb}}</p>
+			<div id = "banner">
+				<p id = "title">Splatter!</p>
+			</div>
 
-				<div ng-repeat="splatt in user.feed">
+		<div id = "UserController" ng-controller="UserController as user"><br><br>
 
-					<p>{{splatt.body}}</p>
-					<p>{{splatt.created_at | date: 'dd/MM/yyyy h:mma'}}<p>
+			<u><h1>Users</h1></u><br>
 
-				</div>
+			<h2>Login</h2>
 
-				<form name="myform" ng-controller="UpdateFormController as form" ng-submit="form.updateUser(user)">
-					<input type="text" ng-model="form.data.name" />
-					<input type="submit" value="Update user" />
+			<div id = "loginLeft">
+
+			<form ng-submit="user.login()">
+
+				<input type="text" ng-model="user.data.id" placeholder = "User ID"/>
+				<input type="submit" id = "button" value="Login" />
+
+			</form>
+
+			<p>User ID: {{user.loggedUser.id}}</p>
+			<p>Name: {{user.loggedUser.name}}</p>
+			<p>Email: {{user.loggedUser.email}}</p>
+			<p>Blurb: {{user.loggedUser.blurb}}</p><br>
+
+			</div>
+
+			<div id = "loginRight" >
+
+				<h2>Edit User</h2>
+
+				<form ng-submit="user.updateUser()">
+
+					<input type="text" ng-model="user.data.name" placeholder = "Name" /> <br />
+					<input type="text" ng-model="user.data.email" placeholder = "Email" /> <br />
+					<textarea ng-model="user.data.blurb" placeholder = "Blurb"></textarea> <br />
+					<input type="submit" id = "button" value="Update" />
+
 				</form>
 
-        <!-- Add your HTML and Angular code above -->
+			</div>
+
+			<div><br>
+
+				<u><h1>Create User</h1></u><br>
+
+				<h2>Register to Splatter</h2>
+
+				<form ng-submit="user.createUser()">
+
+					<input type="text" ng-model="user.data.name" placeholder = "Name" /> <br />
+					<input type="text" ng-model="user.data.email" placeholder = "Email" /> <br />
+					<input type="text" ng-model="user.data.password" placeholder = "Password" /> <br />
+					<textarea ng-model="user.data.blurb" placeholder = "Blurb" ></textarea> <br />
+					<input type="submit" id = "button" value="Create" />
+
+				</form>
+
+			</div>
+
+			<div>
+
+				<u><h1>Delete user by ID</h1></u><br>
+
+				<h2>Delete A User</h2>
+
+				<form ng-submit="user.delUser()">
+
+					<select ng-model="user.data.delid">
+						<option ng-repeat="u in user.ulist">{{u.id}}</option> 
+					</select>
+					<input type="submit" id = "button" value="Delete" /><br>
+
+				</form><br><br>
+
+			</div>
+
+		</div><br><br>
+
+			<div id = "SplattController" ng-controller="SplattController as splatt">
+
+				<u><h1>Splatts</h1></u><br>
+
+				<h2>Publish New Splatt</h2>
+
+				<form ng-submit="splatt.createSplatt()">
+
+					<input type="text" placeholder="User ID" ng-model="splatt.data.user_id" required></br>
+					<input type="text" ng-model="splatt.data.body" placeholder = "Splatt" /> <br />
+					<input type="submit" id = "button" value="Publish Splatt" />
+
+				</form>
+
+				<div><br><br>
+
+					<h2>Delete A Splatt</h2>
+
+					<form ng-submit="splatt.delSplatt()">
+
+						<select ng-model="splatt.data.delid">
+							<option ng-repeat="s in splatt.slist">{{s.id}}</option> 
+						</select>
+						<input type="submit" id = "button" value="Delete" />
+
+					</form>
+
+				</div><br><br>
+
+			</div><br><br>
+
+			<div id = "FollowController" ng-controller="FollowController as follow">
+
+				<u><h1>Follows</h1></u><br>
+
+				<h2>Create A Follow</h2>
+
+				<form ng-submit="follow.createFollow()">
+
+					<input type="text" placeholder="Follower ID" ng-model="follow.data.id" required> will follow 
+					<input type="text" placeholder="Follows ID" ng-model="follow.data.follows_id" required>
+					<input type="submit" id = "button" value="Follow"/>
+
+				</form><br>
+
+				<h2>Unfollow A User</h2>
+
+				<form ng-submit="follow.deleteFollow()">
+
+					<input type="text" placeholder="Follower ID" ng-model="follow.data.unfollower_id" required> will unfollow 
+					<input type="text" placeholder="Follows ID" ng-model="follow.data.unfollows_id" required>
+					<input type="submit" id = "button" value="Unfollow"/>
+
+				</form><br><br>
+
+			</div><br><br>
+
+			<div id = "SplattsFeedController" ng-controller="SplattsFeedController as feed">
+
+				<u><h1>Splatts Feeds</h1></u><br>
+
+				<h2>Get Splatt Feed For User</u2><br>
+
+				<form ng-submit="feed.splattFeed()">
+
+					<input type="text" placeholder="User ID" ng-model="feed.data.id" required>
+					<input type="submit" id = "button" value="Get Feed"/>
+
+				</form>
+
+				<div ng-repeat="f in feed.flist">
+
+	                <p>Body: {{f.body}}</p>
+	                <p>Date: {{f.created_at | date: 'dd/MM/yyyy h:mma'}}<p>
+
+                </div><br><br>
+
+			</div>
 
 		</div>
 
+	</div>
 
-	</body>
+</body>
+
+<footer>
+<p>Splatter - Grant Ford 2014</p>
+</footer>
+
 </html>
-
