@@ -22,12 +22,13 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params(params))
-
+  
     if @user.save
       render json: @user, status: :created, location: @user
-    else
+    else 
       render json: @user.errors, status: :unprocessable_entity
     end
+
   end
 
   # PATCH/PUT /users/1
@@ -66,30 +67,30 @@ class UsersController < ApplicationController
  # Show followers
   def show_followers
     @user = User.find(params[:id])
-    render json: @user.followed_by
+    render json: @user.followers
   end
 
  # Add follow
   def add_follows
-    @follower = User.find(params[:id])
-    @followed = User.find(params[:follows_id])
+    @user = User.find(params[:id])
+    @follows = User.find(params[:follows_id])
     
-    if @follower.follows << @followed
-      head :no_content
+    if @user.follows << @follows and @follows.followers << @user
+      render json: @user.follows
     else
-      render json: @follower.errors, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
  # Delete follow
   def delete_follows
-    @follower = User.find(params[:id])
+    @user = User.find(params[:id])
     @followed = User.find(params[:follows_id])
 
-    if @follower.follows.delete(@followed)
-      head :no_content
+    if @user.follows.delete(@followed)
+      render json: @user.follows
     else
-      render json: @follower.errors, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end 
   end
 
