@@ -66,45 +66,36 @@ class UsersController < ApplicationController
 
  # Show follows
   def show_follows
-    @user = User.find(params[:id])
-    render json: @user.follows
+    db = UserRepository.ew(Riak::Client.new)
+    @user = db.find(params[:id])
+    render json: @user.follows    
   end
 
  # Show followers
   def show_followers
-    @user = User.find(params[:id])
-    render json: @user.followed_by
+    db = UserRepository.ew(Riak::Client.new)
+    @user = db.find(params[:id])
+    render json: @user.followers
   end
 
  # Add follow
   def add_follows
-    @follower = User.find(params[:id])
-    @followed = User.find(params[:follows_id])
-    
-    if @follower.follows << @followed
+    db = UserRepository.new(Riak::Client.new)
+    @follower = db.find(params[:id])
+    @followed = db.find(params[:follows_id])
+
+    if db.follow(@follower, @followed)
       head :no_content
     else
-      render json: @follower.errors, status: :unprocessable_entity
+      render json: "error saving follow relationship" , status :unprocessable_entity
     end
   end
-
- # Delete follow
-  def delete_follows
-    @follower = User.find(params[:id])
-    @followed = User.find(params[:follows_id])
-
-    if @follower.follows.delete(@followed)
-      head :no_content
-    else
-      render json: @follower.errors, status: :unprocessable_entity
-    end 
+       
   end
 
  # GET users/splatts-feed/1
   def splatts_feed
-    @feed = Splatt.find_by_sql("SELECT body, created_at FROM splatts JOIN follows ON follows.followed_id = splatts.user_id WHERE follows.follower_id = #{(params[:id])} ORDER BY created_at") 
-
-    render json: @feed
+    
   end
 
   private
